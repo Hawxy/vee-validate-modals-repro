@@ -13,6 +13,7 @@
           <v-row>
             <v-col class="py-0">
               <v-text-field-validated id="user-email" name="userEmail" label="Email" />
+              <v-text-field-validated id="user-name" name="userName" label="Name" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -24,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import VTextFieldValidated from './VTextFieldValidated.vue';
 import { object, string, type InferType } from 'yup';
 import { useForm } from 'vee-validate';
@@ -37,13 +38,15 @@ const cancel = () => {
 };
 
 const schema = object({
+  userName:  string().required().label("Name"),
   userEmail: string().required().email().label("Email"),
 });
 
 type UserForm = InferType<typeof schema>;
 
 const defaultForm: UserForm = {
-  userEmail: '',
+  userName: '',
+  userEmail: ''
 };
 
 const { resetForm } = useForm({
@@ -54,7 +57,7 @@ const { resetForm } = useForm({
 watch(
   () => visible.value,
   () => {
-    resetForm();
+    nextTick(() =>  resetForm())   
   }
 );
 </script>
