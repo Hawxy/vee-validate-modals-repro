@@ -1,5 +1,5 @@
 <template>
-  <v-text-field v-bind="props" v-model="value" :error-messages="errors" :loading="meta.pending" @blur="handleBlur" />
+  <v-text-field v-bind="props" v-model="value" :error-messages="errors" :loading="meta.pending" @blur="(e: FocusEvent) => handleBlur(e, true)" />
 </template>
 
 <script setup lang="ts">

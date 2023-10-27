@@ -14,6 +14,7 @@
             <v-col class="py-0">
               <v-text-field-validated id="user-email" name="userEmail" label="Email" />
               <v-text-field-validated id="user-name" name="userName" label="Name" />
+              <v-combobox-validated id="combo-items" name="comboItems" label="Combo Items" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -27,7 +28,8 @@
 <script lang="ts" setup>
 import { ref, watch, nextTick } from 'vue';
 import VTextFieldValidated from './VTextFieldValidated.vue';
-import { object, string, type InferType } from 'yup';
+import VComboboxValidated from './VComboboxValidated.vue';
+import { object, string, type InferType, array } from 'yup';
 import { useForm } from 'vee-validate';
 import DialogActions from './DialogActions.vue';
 
@@ -38,20 +40,22 @@ const cancel = () => {
 };
 
 const schema = object({
-  userName:  string().required().label("Name"),
+  userName:  string().required().max(50).label("Name"),
   userEmail: string().required().email().label("Email"),
+  comboItems: array().of(string().required().email().defined()).required().min(1).label("Combo")
 });
 
 type UserForm = InferType<typeof schema>;
 
 const defaultForm: UserForm = {
   userName: '',
-  userEmail: ''
+  userEmail: '',
+  comboItems: []
 };
 
 const { resetForm } = useForm({
   validationSchema: schema,
-  initialValues: defaultForm
+  initialValues: defaultForm,
 });
 
 watch(

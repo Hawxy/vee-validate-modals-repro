@@ -3,9 +3,7 @@
     <InviteModal />
   </v-toolbar>
   <v-container class="fill-height">
-    <v-responsive class="pa-2">
-
-    </v-responsive>
+    <v-responsive class="pa-2"/>
   </v-container>
 </template>
 
